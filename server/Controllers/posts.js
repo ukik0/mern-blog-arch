@@ -53,3 +53,46 @@ export const getOne = async (req, res) => {
         res.status(404).json({message: 'Не удалось получить пост'})
     }
 }
+
+export const remove = async (req, res) => {
+    try {
+        const {id} = req.params
+
+        const post = await PostsModel.findByIdAndDelete({_id: id})
+
+        if (!post) {
+            return res.status(404).json({message: 'Пост не найден'})
+        }
+
+        res.status(200).json({...post._doc, message: 'Пост успешно удален'})
+    } catch (e) {
+        console.log(e)
+        res.status(404).json({message: 'Не удалось удалить пост'})
+    }
+}
+
+export const update = async (req, res) => {
+    try {
+        const {id} = req.params
+        const {title, text, imageUrl, tags} = req.body
+
+        const post = await PostsModel.findByIdAndUpdate(
+            {_id: id},
+            {
+                title,
+                text,
+                imageUrl,
+                tags
+            }
+        )
+
+        if (!post) {
+            return res.status(404).json({message: 'Пост не найден'})
+        }
+
+        res.status(200).json({...post._doc, message: 'Пост обновлен'})
+    } catch (e) {
+        console.log(e)
+        res.status(404).json({message: 'Не удалось обновить статью'})
+    }
+}
