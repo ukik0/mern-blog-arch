@@ -34,3 +34,22 @@ export const create = async (req, res) => {
         res.status(404).json({message: 'Не удалось создать пост'})
     }
 }
+
+export const getOne = async (req, res) => {
+    try {
+        const {id} = req.params
+
+        const post = await PostsModel.findByIdAndUpdate(id, {
+            $inc: {viewsCount: 1}
+        }).populate('user')
+
+        if (!post) {
+            return res.status(404).json({message: 'Пост не найден'})
+        }
+
+        res.status(200).json({...post._doc, message: 'Пост найден'})
+    } catch (e) {
+        console.log(e)
+        res.status(404).json({message: 'Не удалось получить пост'})
+    }
+}
