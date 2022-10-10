@@ -58,7 +58,13 @@ export const login = async (req, res) => {
 
 export const getMe = async (req, res) => {
     try {
-        
+        const user = await UserModel.findById(req.userId)
+
+        if (!user) {
+            res.status(404).json({message: 'Пользователь не найден'})
+        }
+
+        res.status(200).json({...user._doc})
     } catch (e) {
         console.log(e)
         res.status(404).json({message: 'Ошибка получния пользователя'})
