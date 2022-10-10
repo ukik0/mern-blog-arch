@@ -2,7 +2,7 @@ import PostsModel from "../Models/Posts.js";
 
 export const getAll = async (req, res) => {
     try {
-        const posts = await PostsModel.find().populate('user')
+        const posts = await PostsModel.find().sort({createdAt: -1}).populate('user')
         const popularPosts = await PostsModel.find().sort({viewsCount: -1}).populate('user')
 
         res.status(200).json({posts, popularPosts})
