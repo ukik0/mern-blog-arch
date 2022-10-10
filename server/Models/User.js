@@ -8,7 +8,7 @@ const UserModel = new mongoose.Schema({
         type: String,
         default: 'https://gravatar.com/avatar/ebb873cf070c7652408b5f7af02720a0?s=400&d=robohash&r=x'
     },
-    comments: [{type: mongoose.Types.ObjectId, ref: 'comments'}]
+    comments: [{type: mongoose.Types.ObjectId, ref: 'comments'}],
 }, {timestamps: true})
 
 export default mongoose.model('User', UserModel)

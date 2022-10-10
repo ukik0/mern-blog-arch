@@ -34,8 +34,33 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const {email, password} = req.body
+
+        const user = await UserModel.findOne({email})
+
+        if (!user) {
+            res.status(404).json({message: 'Пользователь не найден'})
+        }
+
+        const checkedPassword = bcrypt.compareSync(password, user._doc.password)
+
+        if (!checkedPassword) {
+            res.status(404).json({message: 'Пароли не совпадают'})
+        }
+
+        const token = jwt.sign({_id: user._doc._id}, process.env.JWT_SECRET, {expiresIn: '30d'})
+
+        res.status(200).json({...user._doc, token, message: 'Авторизация прошла успешно'})
     } catch (e) {
         console.log(e)
         res.status(404).json({message: 'Ошибка при авторизации'})
+    }
+}
+
+export const getMe = async (req, res) => {
+    try {
+        
+    } catch (e) {
+        console.log(e)
+        res.status(404).json({message: 'Ошибка получния пользователя'})
     }
 }
