@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 
 import AuthRouter from './Routes/auth.js'
+import PostsRouter from "./Routes/posts.js";
 
 dotenv.config()
 const app = express()
@@ -30,4 +31,5 @@ app.get("/", (req, res) => res.send('Ok'))
 
 //Routes
 app.use('/api/auth', AuthRouter)
+app.use('/api/posts', PostsRouter)
 
