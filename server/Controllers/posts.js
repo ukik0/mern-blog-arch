@@ -21,7 +21,7 @@ export const create = async (req, res) => {
             title,
             text,
             user: req.userId,
-            tags,
+            tags: tags.split(', '),
             imageUrl
         })
 
